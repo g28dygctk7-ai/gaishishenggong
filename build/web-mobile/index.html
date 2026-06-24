@@ -42,8 +42,10 @@
   <script async src="https://www.roiify.net/sdk/roiify-ads.js"></script>
 </head>
 <body>
-  <div id="roiify-banner-container" data-roiify-placement data-roiify-format="banner" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:99999; height:30px; background:rgba(0,0,0,0.85);"></div>
-  <button id="roiify-close-btn" onclick="window.RoiifyBanner.hide();" style="display:none; position:fixed; bottom:30px; right:5px; width:28px; height:22px; background:#ff4444; color:#fff; border:none; border-radius:4px 4px 0 0; font-size:12px; line-height:22px; cursor:pointer; z-index:100000;">✕</button>
+  <div id="roiify-banner-wrapper" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:999999;">
+    <button id="roiify-close-btn" onclick="window.RoiifyBanner.hide();" style="position:absolute; top:-24px; right:8px; min-width:44px; height:24px; padding:0 8px; background:#ff4444; color:#fff; border:none; border-radius:5px 5px 0 0; font-size:13px; cursor:pointer; white-space:nowrap;">关闭 ✕</button>
+    <div id="roiify-banner-container" data-roiify-placement data-roiify-format="banner" style="height:30px; background:rgba(0,0,0,0.85);"></div>
+  </div>
   <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
   <div id="splash">
     <div class="progress-bar stripes">
@@ -112,9 +114,9 @@
             return;
         }
         console.log('[RoiifyAds] SDK就绪, 开始初始化, placementId=' + BANNER_PLACEMENT_ID + ', URL=' + location.href);
-        // 先显示容器让SDK能渲染广告
-        var el = document.getElementById('roiify-banner-container');
-        if (el) el.style.display = 'block';
+        // 先显示wrapper让SDK能渲染广告
+        var wrapper = document.getElementById('roiify-banner-wrapper');
+        if (wrapper) wrapper.style.display = 'block';
         try {
             RoiifyAds.show(BANNER_PLACEMENT_ID, '#roiify-banner-container', {
                 theme: 'dark',
@@ -128,11 +130,11 @@
         var checkCount = 0;
         var checkInterval = setInterval(function() {
             checkCount++;
-            var el = document.getElementById('roiify-banner-container');
-            if ((el && el.children.length > 0) || checkCount > 20) {
+            var container = document.getElementById('roiify-banner-container');
+            if ((container && container.children.length > 0) || checkCount > 20) {
                 clearInterval(checkInterval);
-                if (el) el.style.display = 'none';
-                console.log('[RoiifyAds] 广告预加载完成，已隐藏。children=' + (el ? el.children.length : 0) + ', 耗时=' + (checkCount*500) + 'ms');
+                if (wrapper) wrapper.style.display = 'none';
+                console.log('[RoiifyAds] 广告预加载完成，已隐藏。children=' + (container ? container.children.length : 0) + ', 耗时=' + (checkCount*500) + 'ms');
             }
         }, 500);
     }
@@ -144,16 +146,14 @@
     // 暴露全局方法给游戏调用
     window.RoiifyBanner = {
         show: function() {
-            var el = document.getElementById('roiify-banner-container');
-            var btn = document.getElementById('roiify-close-btn');
-            if (el) el.style.display = 'block';
-            if (btn) btn.style.display = 'block';
+            var wrapper = document.getElementById('roiify-banner-wrapper');
+            if (wrapper) wrapper.style.display = 'block';
+            console.log('[RoiifyBanner] 显示');
         },
         hide: function() {
-            var el = document.getElementById('roiify-banner-container');
-            var btn = document.getElementById('roiify-close-btn');
-            if (el) el.style.display = 'none';
-            if (btn) btn.style.display = 'none';
+            var wrapper = document.getElementById('roiify-banner-wrapper');
+            if (wrapper) wrapper.style.display = 'none';
+            console.log('[RoiifyBanner] 隐藏');
         }
     };
 })();
