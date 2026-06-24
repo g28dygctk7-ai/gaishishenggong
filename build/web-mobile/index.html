@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Cocos Creator | yzjd</title>
+
+  <!--http://www.html5rocks.com/en/mobile/mobifying/-->
+  <meta name="viewport"
+        content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1"/>
+
+  <!--https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- force webkit on 360 -->
+  <meta name="renderer" content="webkit"/>
+  <meta name="force-rendering" content="webkit"/>
+  <!-- force edge on IE -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <!-- force full screen on some browser -->
+  <meta name="full-screen" content="yes"/>
+  <meta name="x5-fullscreen" content="true"/>
+  <meta name="360-fullscreen" content="true"/>
+  
+  <!-- force screen orientation on some browser -->
+  <meta name="screen-orientation" content=""/>
+  <meta name="x5-orientation" content="">
+
+  <!--fix fireball/issues/3568 -->
+  <!--<meta name="browsermode" content="application">-->
+  <meta name="x5-page-mode" content="app">
+
+  <!--<link rel="apple-touch-icon" href=".png" />-->
+  <!--<link rel="apple-touch-icon-precomposed" href=".png" />-->
+
+  <link rel="stylesheet" type="text/css" href="style-mobile.25fc5.css"/>
+  <link rel="icon" href="favicon.8de18.ico"/>
+  <script async src="https://www.roiify.net/sdk/roiify-ads.js"></script>
+</head>
+<body>
+  <div id="roiify-banner-container" data-roiify-placement data-roiify-format="banner" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:99999; height:32px; background:rgba(0,0,0,0.85);">
+    <button id="roiify-close-btn" onclick="window.RoiifyBanner.hide();" style="position:absolute; top:-20px; right:5px; width:40px; height:20px; background:#ff4444; color:#fff; border:none; border-radius:4px 4px 0 0; font-size:12px; cursor:pointer; z-index:100000;">关闭</button>
+  </div>
+  <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
+  <div id="splash">
+    <div class="progress-bar stripes">
+      <span style="width: 0%"></span>
+    </div>
+  </div>
+
+<script src="src/settings.24aff.js" charset="utf-8"></script>
+
+<script src="main.82593.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+(function () {
+    // open web debugger console
+    if (typeof VConsole !== 'undefined') {
+        window.vConsole = new VConsole();
+    }
+
+    var debug = window._CCSettings.debug;
+    var splash = document.getElementById('splash');
+    splash.style.display = 'block';
+
+    function loadScript (moduleName, cb) {
+      function scriptLoaded () {
+          document.body.removeChild(domScript);
+          domScript.removeEventListener('load', scriptLoaded, false);
+          cb && cb();
+      };
+      var domScript = document.createElement('script');
+      domScript.async = true;
+      domScript.src = moduleName;
+      domScript.addEventListener('load', scriptLoaded, false);
+      document.body.appendChild(domScript);
+    }
+
+    loadScript(debug ? 'cocos2d-js.js' : 'cocos2d-js-min.d4f55.js', function () {
+      if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
+        loadScript(debug ? 'physics.js' : 'physics-min.941a2.js', window.boot);
+      }
+      else {
+        window.boot();
+      }
+    });
+})();
+</script>
+
+<!-- RoiifyAds 横幅广告初始化 -->
+<script>
+(function() {
+    var BANNER_PLACEMENT_ID = 'plc_jl4pth1i5zkq'; // 默认横幅
+    var POLL_COUNT = 0;
+    var MAX_POLLS = 50; // 最多等15秒
+
+    function initRoiifyBanner() {
+        POLL_COUNT++;
+        if (typeof RoiifyAds === 'undefined') {
+            if (POLL_COUNT <= MAX_POLLS) {
+                console.log('[RoiifyAds] 等待SDK加载... 第' + POLL_COUNT + '次, URL=' + location.href);
+                setTimeout(initRoiifyBanner, 300);
+            } else {
+                console.error('[RoiifyAds] SDK超时未加载! 请检查roiify.net是否可访问');
+                // 显示加载失败提示
+                var el = document.getElementById('roiify-banner-container');
+                if (el) el.innerHTML = '<div style="color:#ff6b6b;text-align:center;padding:10px;">广告SDK加载失败</div>';
+            }
+            return;
+        }
+        console.log('[RoiifyAds] SDK就绪, 开始初始化, placementId=' + BANNER_PLACEMENT_ID + ', URL=' + location.href);
+        // 先显示容器让SDK能渲染广告
+        var el = document.getElementById('roiify-banner-container');
+        if (el) el.style.display = 'block';
+        try {
+            RoiifyAds.show(BANNER_PLACEMENT_ID, '#roiify-banner-container', {
+                theme: 'dark',
+                format: 'banner'
+            });
+            console.log('[RoiifyAds] RoiifyAds.show() 调用成功');
+        } catch(e) {
+            console.error('[RoiifyAds] RoiifyAds.show() 报错:', e);
+        }
+        // 轮询等待SDK渲染完成后隐藏
+        var checkCount = 0;
+        var checkInterval = setInterval(function() {
+            checkCount++;
+            var el = document.getElementById('roiify-banner-container');
+            if ((el && el.children.length > 0) || checkCount > 20) {
+                clearInterval(checkInterval);
+                if (el) el.style.display = 'none';
+                console.log('[RoiifyAds] 广告预加载完成，已隐藏。children=' + (el ? el.children.length : 0) + ', 耗时=' + (checkCount*500) + 'ms');
+            }
+        }, 500);
+    }
+
+    // 不等load事件, 立即开始轮询(因为async脚本不会阻塞load)
+    console.log('[RoiifyAds] 开始等待SDK, 当前URL=' + location.href);
+    initRoiifyBanner();
+
+    // 暴露全局方法给游戏调用
+    window.RoiifyBanner = {
+        show: function() {
+            var el = document.getElementById('roiify-banner-container');
+            if (el) el.style.display = 'block';
+        },
+        hide: function() {
+            var el = document.getElementById('roiify-banner-container');
+            if (el) el.style.display = 'none';
+        }
+    };
+})();
+</script>
+</body>
+</html>
