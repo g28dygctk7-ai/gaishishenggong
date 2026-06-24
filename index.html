@@ -42,7 +42,7 @@
   <script async src="https://www.roiify.net/sdk/roiify-ads.js"></script>
 </head>
 <body>
-  <div id="roiify-banner-container" data-roiify-placement data-roiify-format="banner" style="position:fixed; bottom:0; left:0; right:0; z-index:99999; min-height:80px; background:rgba(0,0,0,0.85);"></div>
+  <div id="roiify-banner-container" data-roiify-placement data-roiify-format="banner" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:99999; height:50px; background:rgba(0,0,0,0.85);"></div>
   <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
   <div id="splash">
     <div class="progress-bar stripes">
@@ -111,7 +111,9 @@
             return;
         }
         console.log('[RoiifyAds] SDK就绪, 开始初始化, placementId=' + BANNER_PLACEMENT_ID + ', URL=' + location.href);
-        console.log('[RoiifyAds] RoiifyAds类型=' + typeof RoiifyAds + ', show方法=' + typeof RoiifyAds.show);
+        // 先显示容器让SDK能渲染广告
+        var el = document.getElementById('roiify-banner-container');
+        if (el) el.style.display = 'block';
         try {
             RoiifyAds.show(BANNER_PLACEMENT_ID, '#roiify-banner-container', {
                 theme: 'dark',
@@ -121,22 +123,17 @@
         } catch(e) {
             console.error('[RoiifyAds] RoiifyAds.show() 报错:', e);
         }
-        // 2秒后检查容器内容
-        setTimeout(function() {
+        // 轮询等待SDK渲染完成后隐藏
+        var checkCount = 0;
+        var checkInterval = setInterval(function() {
+            checkCount++;
             var el = document.getElementById('roiify-banner-container');
-            if (el) {
-                var html = el.innerHTML;
-                var children = el.children.length;
-                console.log('[RoiifyAds] 容器检查: children=' + children + ', innerHTML长度=' + html.length);
-                if (html.length < 10) {
-                    console.warn('[RoiifyAds] 容器为空! SDK可能没有返回广告。请检查:');
-                    console.warn('  1. Roiify控制台 → 网站状态是否为"已启用"');
-                    console.warn('  2. 控制台中配置的URL是否匹配: ' + location.href);
-                    console.warn('  3. 展示位 ' + BANNER_PLACEMENT_ID + ' 是否未被暂停');
-                    console.warn('  4. Network面板是否有 /ad/request 请求');
-                }
+            if ((el && el.children.length > 0) || checkCount > 20) {
+                clearInterval(checkInterval);
+                if (el) el.style.display = 'none';
+                console.log('[RoiifyAds] 广告预加载完成，已隐藏。children=' + (el ? el.children.length : 0) + ', 耗时=' + (checkCount*500) + 'ms');
             }
-        }, 2000);
+        }, 500);
     }
 
     // 不等load事件, 立即开始轮询(因为async脚本不会阻塞load)
