@@ -43,7 +43,6 @@
 </head>
 <body>
   <div id="roiify-banner-wrapper" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:999999;">
-    <button id="roiify-close-btn" onclick="window.RoiifyBanner.hide();" style="position:absolute; top:-24px; right:8px; min-width:44px; height:24px; padding:0 8px; background:#ff4444; color:#fff; border:none; border-radius:5px 5px 0 0; font-size:13px; cursor:pointer; white-space:nowrap;">关闭 ✕</button>
     <div id="roiify-banner-container" data-roiify-placement data-roiify-format="banner" style="height:30px; background:rgba(0,0,0,0.85);"></div>
   </div>
   <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
@@ -148,11 +147,22 @@
         show: function() {
             var wrapper = document.getElementById('roiify-banner-wrapper');
             if (wrapper) wrapper.style.display = 'block';
+            // 动态创建关闭按钮
+            if (!document.getElementById('roiify-close-btn')) {
+                var btn = document.createElement('button');
+                btn.id = 'roiify-close-btn';
+                btn.textContent = '关闭 ✕';
+                btn.onclick = function(){ window.RoiifyBanner.hide(); };
+                btn.style.cssText = 'position:fixed!important;bottom:30px!important;right:8px!important;width:56px!important;height:26px!important;padding:0!important;margin:0!important;background:#ff4444!important;color:#fff!important;border:none!important;border-radius:6px 6px 0 0!important;font-size:13px!important;line-height:26px!important;z-index:9999999!important;pointer-events:auto!important;opacity:1!important;visibility:visible!important;';
+                document.body.appendChild(btn);
+            }
             console.log('[RoiifyBanner] 显示');
         },
         hide: function() {
             var wrapper = document.getElementById('roiify-banner-wrapper');
             if (wrapper) wrapper.style.display = 'none';
+            var btn = document.getElementById('roiify-close-btn');
+            if (btn) btn.parentNode.removeChild(btn);
             console.log('[RoiifyBanner] 隐藏');
         }
     };
