@@ -138,6 +138,30 @@
     console.log('[RoiifyAds] 开始等待SDK, 当前URL=' + location.href);
     initRoiifyBanner();
 
+    // 提示浮层
+    function showToast() {
+        var toast = document.getElementById('roiify-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'roiify-toast';
+            toast.textContent = '点击广告即可领取奖励';
+            toast.style.cssText = 'position:fixed!important;bottom:58px!important;left:50%!important;transform:translateX(-50%)!important;background:rgba(0,0,0,0.85)!important;color:#ffd700!important;padding:8px 20px!important;border-radius:20px!important;font-size:14px!important;font-weight:bold!important;z-index:9999999!important;pointer-events:none!important;white-space:nowrap!important;animation:roiify-pulse 0.8s ease-in-out infinite!important;';
+            document.body.appendChild(toast);
+            // 注入动画
+            if (!document.getElementById('roiify-style')) {
+                var style = document.createElement('style');
+                style.id = 'roiify-style';
+                style.textContent = '@keyframes roiify-pulse{0%,100%{opacity:1;transform:translateX(-50%) scale(1)}50%{opacity:0.7;transform:translateX(-50%) scale(1.05)}}';
+                document.head.appendChild(style);
+            }
+        }
+        toast.style.display = 'block';
+    }
+    function hideToast() {
+        var toast = document.getElementById('roiify-toast');
+        if (toast) toast.style.display = 'none';
+    }
+
     // 暴露全局方法给游戏调用
     window.RoiifyBanner = {
         show: function() {
@@ -145,6 +169,7 @@
             if (wrapper) { wrapper.style.opacity = '1'; wrapper.style.pointerEvents = 'auto'; }
             var btn = document.getElementById('roiify-close-btn');
             if (btn) btn.style.display = 'block';
+            showToast();
             console.log('[RoiifyBanner] 显示');
         },
         hide: function() {
@@ -152,6 +177,7 @@
             if (wrapper) { wrapper.style.opacity = '0'; wrapper.style.pointerEvents = 'none'; }
             var btn = document.getElementById('roiify-close-btn');
             if (btn) btn.style.display = 'none';
+            hideToast();
             console.log('[RoiifyBanner] 隐藏');
         }
     };
