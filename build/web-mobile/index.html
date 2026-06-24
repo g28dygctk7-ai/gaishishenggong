@@ -42,7 +42,7 @@
   <script async src="https://www.roiify.net/sdk/roiify-ads.js"></script>
 </head>
 <body>
-  <div id="roiify-banner-wrapper" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:999999;">
+  <div id="roiify-banner-wrapper" style="opacity:0; position:fixed; bottom:0; left:0; right:0; z-index:999999;">
     <div id="roiify-banner-container" data-roiify-placement data-roiify-format="banner" style="height:30px; background:rgba(0,0,0,0.85);"></div>
   </div>
   <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
@@ -113,9 +113,8 @@
             return;
         }
         console.log('[RoiifyAds] SDK就绪, 开始初始化, placementId=' + BANNER_PLACEMENT_ID + ', URL=' + location.href);
-        // 先显示wrapper让SDK能渲染广告
+        // wrapper保持opacity:0，SDK可以在不可见容器内渲染
         var wrapper = document.getElementById('roiify-banner-wrapper');
-        if (wrapper) wrapper.style.display = 'block';
         try {
             RoiifyAds.show(BANNER_PLACEMENT_ID, '#roiify-banner-container', {
                 theme: 'dark',
@@ -125,15 +124,14 @@
         } catch(e) {
             console.error('[RoiifyAds] RoiifyAds.show() 报错:', e);
         }
-        // 轮询等待SDK渲染完成后隐藏
+        // 轮询等待SDK渲染完成
         var checkCount = 0;
         var checkInterval = setInterval(function() {
             checkCount++;
             var container = document.getElementById('roiify-banner-container');
             if ((container && container.children.length > 0) || checkCount > 20) {
                 clearInterval(checkInterval);
-                if (wrapper) wrapper.style.display = 'none';
-                console.log('[RoiifyAds] 广告预加载完成，已隐藏。children=' + (container ? container.children.length : 0) + ', 耗时=' + (checkCount*500) + 'ms');
+                console.log('[RoiifyAds] 广告预加载完成。children=' + (container ? container.children.length : 0) + ', 耗时=' + (checkCount*500) + 'ms');
             }
         }, 500);
     }
@@ -146,8 +144,8 @@
     window.RoiifyBanner = {
         show: function() {
             var wrapper = document.getElementById('roiify-banner-wrapper');
-            if (wrapper) wrapper.style.display = 'block';
-            // 动态创建关闭按钮 — 先尝试贴wrapper内顶部，如果不可见则放屏幕顶部
+            if (wrapper) wrapper.style.opacity = '1';
+            // 动态创建关闭按钮 — 屏幕右上角醒目红块
             if (!document.getElementById('roiify-close-btn')) {
                 var btn = document.createElement('div');
                 btn.id = 'roiify-close-btn';
@@ -160,7 +158,7 @@
         },
         hide: function() {
             var wrapper = document.getElementById('roiify-banner-wrapper');
-            if (wrapper) wrapper.style.display = 'none';
+            if (wrapper) wrapper.style.opacity = '0';
             var btn = document.getElementById('roiify-close-btn');
             if (btn) btn.parentNode.removeChild(btn);
             console.log('[RoiifyBanner] 隐藏');
