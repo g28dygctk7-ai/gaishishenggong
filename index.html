@@ -43,7 +43,7 @@
 </head>
 <body>
   <div id="roiify-banner-wrapper" style="opacity:1; position:fixed; bottom:0; left:0; right:0; z-index:999999;">
-    <div id="roiify-banner-container" data-roiify-placement data-roiify-format="banner" style="height:70px; background:rgba(0,0,0,0.85);"></div>
+    <div id="roiify-banner-container" data-roiify-placement data-roiify-format="banner" style="height:55px; background:rgba(0,0,0,0.85);"></div>
   </div>
   <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
   <div id="splash">
@@ -142,14 +142,14 @@
     window.RoiifyBanner = {
         show: function() {
             var wrapper = document.getElementById('roiify-banner-wrapper');
-            if (wrapper) wrapper.style.opacity = '1';
+            if (wrapper) { wrapper.style.opacity = '1'; wrapper.style.pointerEvents = 'auto'; }
             var btn = document.getElementById('roiify-close-btn');
             if (btn) btn.style.display = 'block';
             console.log('[RoiifyBanner] 显示');
         },
         hide: function() {
             var wrapper = document.getElementById('roiify-banner-wrapper');
-            if (wrapper) wrapper.style.opacity = '0';
+            if (wrapper) { wrapper.style.opacity = '0'; wrapper.style.pointerEvents = 'none'; }
             var btn = document.getElementById('roiify-close-btn');
             if (btn) btn.style.display = 'none';
             console.log('[RoiifyBanner] 隐藏');
