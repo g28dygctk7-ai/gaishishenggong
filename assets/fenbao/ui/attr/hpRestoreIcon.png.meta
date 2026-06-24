@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "6af8348d-cddd-4988-9d1a-05719c214e33",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 70,
+  "height": 70,
+  "platformSettings": {},
+  "subMetas": {
+    "hpRestoreIcon": {
+      "ver": "1.0.6",
+      "uuid": "ef718029-6e8f-4e5e-a16b-e41e24bbbfac",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "6af8348d-cddd-4988-9d1a-05719c214e33",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 2,
+      "width": 70,
+      "height": 66,
+      "rawWidth": 70,
+      "rawHeight": 70,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

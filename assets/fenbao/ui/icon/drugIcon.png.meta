@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "9e22562e-35da-4d3d-a3a4-1cb37fc9837c",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 100,
+  "height": 100,
+  "platformSettings": {},
+  "subMetas": {
+    "drugIcon": {
+      "ver": "1.0.6",
+      "uuid": "896f378c-1d6f-4ba6-aa73-27da03e7edc7",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "9e22562e-35da-4d3d-a3a4-1cb37fc9837c",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0.5,
+      "offsetY": 0,
+      "trimX": 24,
+      "trimY": 13,
+      "width": 53,
+      "height": 74,
+      "rawWidth": 100,
+      "rawHeight": 100,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
