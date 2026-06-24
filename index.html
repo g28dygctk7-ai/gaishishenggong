@@ -147,13 +147,13 @@
         show: function() {
             var wrapper = document.getElementById('roiify-banner-wrapper');
             if (wrapper) wrapper.style.display = 'block';
-            // 动态创建关闭按钮
+            // 动态创建关闭按钮 — 屏幕右上角醒目红块
             if (!document.getElementById('roiify-close-btn')) {
-                var btn = document.createElement('button');
+                var btn = document.createElement('div');
                 btn.id = 'roiify-close-btn';
-                btn.textContent = '关闭 ✕';
+                btn.textContent = '✕';
                 btn.onclick = function(){ window.RoiifyBanner.hide(); };
-                btn.style.cssText = 'position:fixed!important;bottom:30px!important;right:8px!important;width:56px!important;height:26px!important;padding:0!important;margin:0!important;background:#ff4444!important;color:#fff!important;border:none!important;border-radius:6px 6px 0 0!important;font-size:13px!important;line-height:26px!important;z-index:9999999!important;pointer-events:auto!important;opacity:1!important;visibility:visible!important;';
+                btn.style.cssText = 'position:fixed!important;top:0!important;right:0!important;width:40px!important;height:30px!important;padding:0!important;margin:0!important;background:#ff4444!important;color:#fff!important;border:none!important;border-radius:0!important;font-size:18px!important;font-weight:bold!important;line-height:30px!important;text-align:center!important;z-index:2147483647!important;pointer-events:auto!important;opacity:1!important;visibility:visible!important;display:block!important;cursor:pointer!important;';
                 document.body.appendChild(btn);
             }
             console.log('[RoiifyBanner] 显示');
