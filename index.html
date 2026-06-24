@@ -43,7 +43,7 @@
 </head>
 <body>
   <div id="roiify-banner-wrapper" style="opacity:1; position:fixed; bottom:0; left:0; right:0; z-index:999999;">
-    <div id="roiify-banner-container" data-roiify-placement data-roiify-format="banner" style="height:55px; background:rgba(0,0,0,0.85);"></div>
+    <div id="roiify-banner-container" data-roiify-placement data-roiify-format="banner" style="height:52px; background:rgba(0,0,0,0.85);"></div>
   </div>
   <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
   <div id="splash">
@@ -129,7 +129,7 @@
             btn.id = 'roiify-close-btn';
             btn.textContent = '✕';
             btn.onclick = function(){ window.RoiifyBanner.hide(); };
-            btn.style.cssText = 'position:absolute!important;top:2px!important;right:4px!important;width:36px!important;height:36px!important;padding:0!important;margin:0!important;background:#ff4444!important;color:#fff!important;border:2px solid #fff!important;border-radius:50%!important;font-size:20px!important;font-weight:bold!important;line-height:32px!important;text-align:center!important;z-index:9999999!important;pointer-events:auto!important;opacity:1!important;cursor:pointer!important;box-shadow:0 2px 6px rgba(0,0,0,0.5)!important;';
+            btn.style.cssText = 'position:absolute!important;top:2px!important;right:4px!important;width:24px!important;height:24px!important;padding:0!important;margin:0!important;background:#ff4444!important;color:#fff!important;border:1px solid #fff!important;border-radius:50%!important;font-size:14px!important;font-weight:bold!important;line-height:22px!important;text-align:center!important;z-index:9999999!important;pointer-events:auto!important;opacity:1!important;cursor:pointer!important;box-shadow:0 1px 4px rgba(0,0,0,0.5)!important;';
             wrapper.appendChild(btn);
         }
     }
