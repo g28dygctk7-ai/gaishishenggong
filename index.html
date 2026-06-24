@@ -42,7 +42,7 @@
   <script async src="https://www.roiify.net/sdk/roiify-ads.js"></script>
 </head>
 <body>
-  <div id="roiify-banner-container" data-roiify-placement data-roiify-format="banner" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:999; min-height:80px;"></div>
+  <div id="roiify-banner-container" data-roiify-placement data-roiify-format="banner" style="position:fixed; bottom:0; left:0; right:0; z-index:999; min-height:80px;"></div>
   <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
   <div id="splash">
     <div class="progress-bar stripes">
@@ -104,6 +104,11 @@
             format: 'banner'
         });
         console.log('[RoiifyAds] 横幅广告初始化完成, placementId=' + BANNER_PLACEMENT_ID);
+        // SDK 初始化后先隐藏，等游戏触发广告按钮时再显示
+        setTimeout(function() {
+            var el = document.getElementById('roiify-banner-container');
+            if (el) el.style.display = 'none';
+        }, 2000);
     }
 
     window.addEventListener('load', function() {
